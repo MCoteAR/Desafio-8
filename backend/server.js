@@ -4,8 +4,10 @@ import cors from 'cors';
 const app = express();
 const port = 5001;
 
-// Middleware para manejar CORS
-app.use(cors());
+// Middleware para manejar CORS y parsear JSON
+app.use(cors({ origin: '*' }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Respuesta para la raíz
 app.get('/', (req, res) => {
@@ -21,7 +23,7 @@ app.get('/api/pizzas', (req, res) => {
 });
 
 // Middleware para rutas no definidas
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
@@ -29,3 +31,4 @@ app.use((req, res, next) => {
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
+
